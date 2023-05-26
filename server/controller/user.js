@@ -1,5 +1,5 @@
-const test = ()=>{
- console.log('test')
+const test = (req,res)=>{
+ res.send('test')
 }
 
 

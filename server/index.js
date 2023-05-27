@@ -3,6 +3,9 @@ require('dotenv').config()
 const app = express()
 const db = require('./db/db')
 db()
+const cookie = require('cookie-parser')
+
+
 //b odyparser yerine daha kolay olan app.use(express.json())
 const bodyParser =require('body-parser')
 app.use(bodyParser.urlencoded({extended:true}))
@@ -16,9 +19,8 @@ const commentsRoutes = require('./routes/comments')
 const authRoutes = require('./routes/auth')
 const port  = 4003
 
-app.get('/',(req,res)=>{
-    res.send('deneme')
-})
+
+app.use(cookie())
 app.use('/api/auth',authRoutes)
 app.use('/api/users',userRoutes)
 app.use('./api/videos',videoRoutes)

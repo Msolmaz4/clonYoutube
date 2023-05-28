@@ -38,18 +38,18 @@ exports.signin = async (req, res) => {
   //console.log(req.body)
 
   try {
-    const { email, password } = req.body;
+   // const { email, password } = req.body;
 
-    const emailControl = await Users.findOne({ email: email });
+    const emailControl = await Users.findOne({email: req.body.email });
     if (!emailControl) return res.send("email ist falsch");
-    if (!password) return res.send("paaword ist leer");
+    if (!req.body.password) return res.send("paaword ist leer");
 
-    const passwordCon = bcrypt.compare(password, emailControl.password);
+    const passwordCon = bcrypt.compare(req.body.password, emailControl.password);
     if (!passwordCon) return res.send("explosin");
 
     const token = jwt.sign(
       {
-        email,
+      
         id: emailControl._id,
       },
       process.env.AUTH_KEY
@@ -70,7 +70,9 @@ exports.signin = async (req, res) => {
     }
     //burada password gondermeyiy bu yuzden
     // const {password ,...others} = emailcontrol.password hata verdi
-     emailControl.password = null
+    // emailControl.password = null
+
+  const { password,...others} =emailControl
     res
       .cookie("acces_token", token, {
         httpOnly: true,
@@ -78,8 +80,8 @@ exports.signin = async (req, res) => {
       .status(200)
       .json({
         succed: "true",
-        token,
-        data: emailControl,
+      
+        data: others
       });
   } catch (error) {
     console.log(error);

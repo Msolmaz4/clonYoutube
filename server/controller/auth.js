@@ -49,41 +49,40 @@ exports.signin = async (req, res) => {
 
     const token = jwt.sign(
       {
-      
-        id: emailControl._id,
+        email,
+        id: emailControl._id
       },
       process.env.AUTH_KEY
     );
 
-    {
-      /* 
-   burada ben kontrol  null esitledigimde normalde calisiyor ama kontrollde hata verir bu 
-   cookie kullanarak cerezlerde calistirmak 
-   sonra cookie yerini degistirdim hata ordana kalkti
-   
-   emailControl.password = null
-    res.status(202).json({
-        succed:'true',
-        token,
-        data:emailControl
-    })*/
-    }
     //burada password gondermeyiy bu yuzden
-    // const {password ,...others} = emailcontrol.password hata verdi
     // emailControl.password = null
 
   const { password,...others} =emailControl._doc
     res
-      .cookie("acces_token", token, {
+      .cookie("access_token", token, {
         httpOnly: true,
       })
       .status(200)
       .json({
         succed: "true",
-      
         data: others
       });
   } catch (error) {
     console.log(error);
   }
 };
+
+{
+  /* 
+burada ben kontrol  null esitledigimde normalde calisiyor ama kontrollde hata verir bu 
+cookie kullanarak cerezlerde calistirmak 
+sonra cookie yerini degistirdim hata ordana kalkti
+
+emailControl.password = null
+res.status(202).json({
+    succed:'true',
+    token,
+    data:emailControl
+})*/
+}

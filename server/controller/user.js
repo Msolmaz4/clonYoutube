@@ -5,10 +5,10 @@ exports.update =async  (req,res,next)=>{
       const {id} = req.params
       console.log(id,'update')
 
-    if(req.params.id === req.token.id){
+    if(req.params.id === req.email.id){
         try {
             const updateUser = await Users.findByIdAndUpdate(req.params.id,{
-                $set:res.body
+                $set:req.body
             },
             {
                 new:true

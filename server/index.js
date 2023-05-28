@@ -12,15 +12,15 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 const cors = require('cors')
 app.use(cors())
-
+app.use(cookie())
 const userRoutes = require('./routes/users')
 const videoRoutes =require('./routes/videos')
 const commentsRoutes = require('./routes/comments')
 const authRoutes = require('./routes/auth')
-const port  = 4008
+const port  = 4009
 
 
-app.use(cookie())
+
 app.use('/api/auth',authRoutes)
 app.use('/api/users',userRoutes)
 app.use('./api/videos',videoRoutes)

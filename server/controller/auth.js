@@ -72,7 +72,7 @@ exports.signin = async (req, res) => {
     // const {password ,...others} = emailcontrol.password hata verdi
     // emailControl.password = null
 
-  const { password,...others} =emailControl
+  const { password,...others} =emailControl._doc
     res
       .cookie("acces_token", token, {
         httpOnly: true,

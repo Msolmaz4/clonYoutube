@@ -50,7 +50,7 @@ exports.signin = async (req, res) => {
     const token = jwt.sign(
       {
         email,
-        userId: emailControl._id,
+        id: emailControl._id,
       },
       process.env.AUTH_KEY
     );

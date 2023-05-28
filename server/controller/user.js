@@ -1,5 +1,29 @@
-exports.update = (req,res,next)=>{
-    res.send('baba geldik')
+const Users = require("../models/User")
+
+exports.update =async  (req,res,next)=>{
+    //res.send('baba geldik')
+      const {id} = req.params
+      console.log(id,'update')
+
+    if(req.params.id === req.token.id){
+        try {
+            const updateUser = await Users.findByIdAndUpdate(req.params.id,{
+                $set:res.body
+            },
+            {
+                new:true
+            }
+            )
+            res.status(200).json(updateUser)
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+
+    }else{
+        console.log('verify ist nict rein')
+    }
 
 }
 

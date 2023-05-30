@@ -38,9 +38,9 @@ exports.signin = async (req, res) => {
   //console.log(req.body)
 
   try {
-   // const { email, password } = req.body;
+   const { email } = req.body;
 
-    const emailControl = await Users.findOne({email: req.body.email });
+    const emailControl = await Users.findOne({email: email });
     if (!emailControl) return res.send("email ist falsch");
     if (!req.body.password) return res.send("paaword ist leer");
 
@@ -55,12 +55,13 @@ exports.signin = async (req, res) => {
       process.env.AUTH_KEY
     );
 
+    console.log(token,"signin")
     //burada password gondermeyiy bu yuzden
     // emailControl.password = null
 
   const { password,...others} =emailControl._doc
     res
-      .cookie("access_token", token, {
+      .cookie("acces_token", token, {
         httpOnly: true,
       })
       .status(200)
@@ -68,6 +69,7 @@ exports.signin = async (req, res) => {
         succed: "true",
         data: others
       });
+      console.log(token,"signup2")
   } catch (error) {
     console.log(error);
   }

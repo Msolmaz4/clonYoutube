@@ -17,7 +17,7 @@ const userRoutes = require('./routes/users')
 const videoRoutes =require('./routes/videos')
 const commentsRoutes = require('./routes/comments')
 const authRoutes = require('./routes/auth')
-const port  = 4009
+const port  = 4003
 
 
 

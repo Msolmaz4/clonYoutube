@@ -8,13 +8,14 @@ exports.verifyToken = (req,res,next)=>{
     console.log(token,"verify")
     if(!token) return res.send('verif ist nicht token')
     jwt.verify(token,process.env.AUTH_KEY,(err,email)=>{
-        if(err) return res.send('verify gurdin'),
-        req.email = email,
-        next()
+       if(err) return res.send('deneme111111')
+       req.email = email
+   
+       next()
     })
 
 
-  
+
 
    
 

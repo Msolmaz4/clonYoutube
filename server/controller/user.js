@@ -28,7 +28,24 @@ exports.update =async  (req,res,next)=>{
 }
 
 
-exports.deleteUser = (req,res,next)=>{
+exports.deleteUser =async (req,res,next)=>{
+
+    if(req.params.id === req.email.id){
+        try {
+            const deleteUser = await Users.findByIdAndDelete(req.params.id)
+            res.status(200).json({
+                mesaage:"dletee okey",
+                deleteUser
+            })
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+
+    }else{
+        console.log('verify ist nict rein')
+    }
 
 }
 

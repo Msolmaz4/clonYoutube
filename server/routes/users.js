@@ -7,7 +7,7 @@ const { verifyToken } = require('../verifyToken')
 router.put('/:id',verifyToken,update)
 
 //delete user
-router.delete('/:id',deleteUser)
+router.delete('/:id',verifyToken,deleteUser)
 
 //get a user
 

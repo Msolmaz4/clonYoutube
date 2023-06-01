@@ -1,3 +1,4 @@
+const { json } = require("body-parser")
 const Users = require("../models/User")
 
 exports.update =async  (req,res,next)=>{
@@ -49,11 +50,20 @@ exports.deleteUser =async (req,res,next)=>{
 
 }
 
-exports.getUser= (req,res,next)=>{
+exports.getUser= async(req,res,next)=>{
+
+    const user = await Users.findById(req.params.id)
+    res.status(200).json(user)
+
 
 }
 
-exports.subscribe = (req,res,next)=>{
+exports.subscribe = async (req,res,next)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
 
 }
 

@@ -52,8 +52,8 @@ exports.deleteUser =async (req,res,next)=>{
 
 exports.getUser= async(req,res,next)=>{
 
-    const user = await Users.findById(req.params.id)
-    res.status(200).json(user)
+    const email = await Users.findById(req.email.id)
+    res.status(200).json(email)
 
 
 }

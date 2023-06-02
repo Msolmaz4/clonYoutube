@@ -50,6 +50,7 @@ exports.deleteUser =async (req,res,next)=>{
 
 }
 
+//kullaniciyi bulacam find/:id
 exports.getUser= async(req,res,next)=>{
 
     const email = await Users.findById(req.email.id)
@@ -57,17 +58,39 @@ exports.getUser= async(req,res,next)=>{
 
 
 }
-
+//buraqda id bulduk paramsadaki id push ederek takipciyi ekledik
 exports.subscribe = async (req,res,next)=>{
     try {
-        
+        await Users.findById(req.email.id,{
+            $push :{subscribedUsers:req.params.id}
+
+        })
+        await Users.findByIdAndUpdate(req.params.id),{
+            $inc :{subscribers:1}
+        }
+        res.status(200).json('subription okeeeeeee')
     } catch (error) {
-        
+        console.log(error)
     }
 
 }
 
-exports.unsubscribe = (req,res,next)=>{
+exports.unsubscribe = async(req,res,next)=>{
+
+    try {
+        await Users.findById(req.email.id,{
+            $pull :{subscribedUsers:req.params.id}
+
+        })
+        await Users.findByIdAndUpdate(req.params.id),{
+            $inc :{subscribers:-1}
+        }
+        res.status(200).json('unsubription okeeeeeee')
+    } catch (error) {
+        console.log(error)
+    }
+
+
 
 }
 exports.like = (req,res,next)=>{

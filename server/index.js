@@ -23,8 +23,8 @@ const port  = 4003
 
 app.use('/api/auth',authRoutes)
 app.use('/api/users',userRoutes)
-app.use('./api/videos',videoRoutes)
-app.use('./api/comments',commentsRoutes)
+app.use('/api/videos',videoRoutes)
+app.use('/api/comments',commentsRoutes)
 
 app.listen(port,()=>{
     console.log('guyel')

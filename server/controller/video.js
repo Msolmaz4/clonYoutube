@@ -2,9 +2,9 @@ const Users = require("../models/User");
 const Video = require("../models/Video");
 
 exports.addVideo = async (req, res, next) => {
-    console.log(req.body)
+   // console.log(req.body)
   const newVideo = new Video({ userId: req.email.id, ...req.body });
-  console.log(newVideo)
+  //console.log(newVideo)
   try {
     
     const saveVideo = await newVideo.save();
@@ -93,19 +93,47 @@ exports.trend = async (req, res, next) => {
   }
 };
 //Parametre olarak verilen asenkron işlemlerinin hepsinin bitmesini bekledikten sonra sonuç döndürmektedir.promise .all()
-
+//flat duygun diyi olarak biye donus zapar
+//sort yaparak ta enson video yu goruruz
 exports.sub = async (req, res, next) => {
   try {
    const user = await Users.findById(req.email.id)
    const subscribedChannels = user.subscribedUsers
-   const list =Promise.all(
+   const list = await Promise.all(
     subscribedChannels.map((channelId)=>{
         return Video.find({userId:channelId})
     })
    )
-   res.status(200).json(list)
+   res.status(200).json(list.flat().sort((a,b)=>b.createdAt - a.createdAt))
 
   } catch (error) {
     console.log(error);
   }
 };
+
+//split(",") sonucu ["js ","c"] gibi doner
+exports.getByTag = async (req, res, next) => {
+
+const tags = req.query.tags.split(",")
+console.log(tags)
+
+    try {
+      const videos = await Video.find({tags:{$in:tags}}).limit(20)
+      res.status(200).json(videos);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  //regex mongo db ozellikleri options i kucuk buyuk farketmez
+  exports.search = async (req, res, next) => {
+const query = req.query.q
+
+    try {
+      const videos = await Video.find({title:{$regex :query ,$options :"i"}}).limit(40)
+      res.status(200).json(videos);
+    } catch (error) {
+      console.log(error);
+    }
+  };

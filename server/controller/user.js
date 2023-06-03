@@ -60,8 +60,9 @@ exports.getUser= async(req,res,next)=>{
 }
 //buraqda id bulduk paramsadaki id push ederek takipciyi ekledik
 exports.subscribe = async (req,res,next)=>{
+    console.log(req.email.id)
     try {
-        await Users.findById(req.email.id,{
+        await Users.findByIdAndUpdate(req.email.id,{
             $push :{subscribedUsers:req.params.id}
 
         })
@@ -78,7 +79,7 @@ exports.subscribe = async (req,res,next)=>{
 exports.unsubscribe = async(req,res,next)=>{
 
     try {
-        await Users.findById(req.email.id,{
+        await Users.findByIdAndUpdate(req.email.id,{
             $pull :{subscribedUsers:req.params.id}
 
         })

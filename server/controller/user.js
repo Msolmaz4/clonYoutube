@@ -1,5 +1,6 @@
 const { json } = require("body-parser")
 const Users = require("../models/User")
+const Video = require('../models/Video')
 
 exports.update =async  (req,res,next)=>{
     //res.send('baba geldik')
@@ -94,10 +95,39 @@ exports.unsubscribe = async(req,res,next)=>{
 
 
 }
-exports.like = (req,res,next)=>{
+exports.like = async (req,res,next)=>{
+
+   
+    try {
+
+        const id = req.email.id
+        const videoId = req.params.videoId
+        await Video.findByIdAndUpdate(videoId,{
+            $addToSet:{likes:id},
+            $pull:{dislikes:id}
+        })
+
+        res.status(200).json('like okey')
+    } catch (error) {
+        
+    }
 
 }
-exports.dislike = (req,res,next)=>{
+exports.dislike =async (req,res,next)=>{
+    
+    try {
+
+        const id = req.email.id
+        const videoId = req.params.videoId
+        await Video.findByIdAndUpdate(videoId,{
+            $addToSet:{dislikes:id},
+            $pull:{ikes:id}
+        })
+
+        res.status(200).json('dislike okey')
+    } catch (error) {
+        
+    }
 
 }
 

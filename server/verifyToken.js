@@ -3,9 +3,10 @@
 const jwt = require('jsonwebtoken')
 
 exports.verifyToken = (req,res,next)=>{
+
     console.log(req.cookies.acces_token)
     const token = req.cookies.acces_token
-    console.log(token,"verify")
+
     if(!token) return res.send('verif ist nicht token')
     jwt.verify(token,process.env.AUTH_KEY,(err,email)=>{
        if(err) return res.send('deneme111111')

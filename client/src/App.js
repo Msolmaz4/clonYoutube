@@ -33,7 +33,13 @@ function App() {
             <Wrapper>
               <Routes>
                 <Route path="/">
-                  <Route index element={<Home />} />
+                  {/** azni sayfada farkli yerlere gidecgiz ama browserde ana sutun klacak sa index sayfa ici degisiklik yapabiliriy
+                   * http://localhost:3000/video/test/..
+                   * sonrahttp://localhost:3000/video/test/... farkili fakli iceriklre ulasmak icin 
+                   */}
+                  <Route index element={<Home type="random" />} />
+                  <Route path="trends" element={<Home type="trend" />} />
+                  <Route path="subscriptions" element={<Home  type="sub"/>} />
                   <Route path="signin" element={<SignIn />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />

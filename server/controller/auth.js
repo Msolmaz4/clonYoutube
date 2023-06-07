@@ -8,7 +8,8 @@ exports.signup = async (req, res) => {
 
   try {
     const { name, email, password } = req.body;
-
+ 
+     if(!name) return res.send("name ist leer")
     if (!checkEmail(email)) return res.send("email ist leer");
     if (!password) return res.send("paaword ist leer");
     const newwUser = await new Users({
@@ -16,7 +17,7 @@ exports.signup = async (req, res) => {
       email: email,
       name: name,
     });
-
+   
     newwUser.save();
     res.status(200).json({
       succed: "true",
@@ -35,27 +36,30 @@ exports.signup = async (req, res) => {
 //passwordu gondermemeyiyi unutma
 
 exports.signin = async (req, res) => {
-  //console.log(req.body)
+
 
   try {
    const { email } = req.body;
+   console.log(req.body.password,"signin")
 
     const emailControl = await Users.findOne({email: email });
     if (!emailControl) return res.send("email ist falsch");
     if (!req.body.password) return res.send("paaword ist leer");
 
     const passwordCon = bcrypt.compare(req.body.password, emailControl.password);
-    if (!passwordCon) return res.send("explosin");
+    if (!passwordCon) return res.send({message:"explosin"});
 
     const token = jwt.sign(
       {
+        
         email,
+        
         id: emailControl._id
       },
       process.env.AUTH_KEY
     );
 
-    console.log(token,"signin")
+  
     //burada password gondermeyiy bu yuzden
     // emailControl.password = null
 
@@ -67,7 +71,7 @@ exports.signin = async (req, res) => {
       .status(200)
       .json({
         succed: "true",
-        data: others
+      data:others
       });
       console.log(token,"signup2")
   } catch (error) {

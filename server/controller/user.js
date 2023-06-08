@@ -53,7 +53,7 @@ exports.deleteUser =async (req,res,next)=>{
 
 //kullaniciyi bulacam find/:id
 exports.getUser= async(req,res,next)=>{
-
+    console.log(req.email.id)
     const email = await Users.findById(req.email.id)
     res.status(200).json(email)
 
@@ -61,7 +61,7 @@ exports.getUser= async(req,res,next)=>{
 }
 //buraqda id bulduk paramsadaki id push ederek takipciyi ekledik
 exports.subscribe = async (req,res,next)=>{
-    console.log(req.email.id)
+    
     try {
         await Users.findByIdAndUpdate(req.email.id,{
             $push :{subscribedUsers:req.params.id}

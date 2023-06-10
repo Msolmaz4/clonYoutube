@@ -53,8 +53,9 @@ exports.deleteUser =async (req,res,next)=>{
 
 //kullaniciyi bulacam find/:id
 exports.getUser= async(req,res,next)=>{
-    console.log(req.email.id)
-    const email = await Users.findById(req.email.id)
+    
+    console.log(req.params.id,"getUser")
+    const email = await Users.findById(req.params.id)
     res.status(200).json(email)
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -64,13 +64,23 @@ const Link = styled.span`
 `;
 
 const SignIn = () => {
+  const [name ,setName] = useState("")
+
+ 
+
+
+
+
+
+
+
   return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to LamaTube</SubTitle>
-        <Input placeholder="username" />
-        <Input type="password" placeholder="password" />
+        <Input placeholder="username" name="name"   />
+        <Input type="password" placeholder="password" name="password"/>
         <Button>Sign in</Button>
         <Title>or</Title>
         <Input placeholder="username" />

@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux"
+
+
 
 const Container = styled.div`
   position: sticky;
@@ -53,9 +57,35 @@ const Button = styled.button`
   align-items: center;
   gap: 5px;
 `;
-const Navbar = () => {
 
-  
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`;
+
+const Avatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #999;
+`;
+
+
+
+
+
+
+const Navbar = () => {
+//Reducer içerisinde tanımlanan state bilgisine erişmek ve değişikliklerden haberdar olmak için kullanılır.
+ const {currentUser} = useSelector(state=>state.user)
+//bburada alltta currentUser.Name yaptim hata aldim sonra consolda ne gelutyor baktimdata nin icinde gelutor nnmame
+//console.log(currentUser.data.name)
+
+
   return (
     <Container>
       <Wrapper>
@@ -63,12 +93,20 @@ const Navbar = () => {
           <Input placeholder="Search" />
           <SearchOutlinedIcon />
         </Search>
-        <Link to="signin" style={{ textDecoration: "none" }}>
+       { currentUser ?  ( 
+         <User>
+          <VideoCallOutlinedIcon/>
+          <Avatar/>
+          {currentUser.data.name}
+         </User>
+
+
+       ) :  <Link to="signin" style={{ textDecoration: "none" }}>
           <Button>
             <AccountCircleOutlinedIcon />
             SIGN IN
           </Button>
-        </Link>
+        </Link>}
       </Wrapper>
     </Container>
   );

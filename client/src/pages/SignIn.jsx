@@ -78,7 +78,7 @@ const SignIn = () => {
   dispacth(loginStart())
   try {
       
-    const res = await axios.post('/auth/signin',{email,password})
+    const res = await axios.post('/auth/signin',{name,email,password})
     dispacth(loginSuccess(res.data))
 
 

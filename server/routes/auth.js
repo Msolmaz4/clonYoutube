@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const {signup,signin} = require('../controller/auth')
+const {signup,signin, googleAuth} = require('../controller/auth')
 
 
 //register
@@ -12,7 +12,7 @@ router.post('/signin',signin)
 
 //google
 
-router.post('/google')
+router.post('/google',googleAuth)
 
 
 

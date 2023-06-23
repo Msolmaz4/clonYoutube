@@ -51,9 +51,7 @@ exports.signin = async (req, res) => {
 
     const token = jwt.sign(
       {
-        
         email,
-        
         id: emailControl._id
       },
       process.env.AUTH_KEY
@@ -91,4 +89,60 @@ res.status(202).json({
     token,
     data:emailControl
 })*/
+}
+
+
+exports.googleAuth =async ( req,res)=>{
+
+  try {
+
+
+    const user =await Users.findOne({email:req.body.email})
+    if(user){
+      const token = jwt.sign(
+        {
+      
+          id:user._id
+        },
+        process.env.AUTH_KEY
+      );
+      res
+        .cookie("acces_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          succed: "true",
+        data:user._doc
+        });
+
+    }else{
+      const newUser = new Users({
+        ...req.body,
+        fromGoogle:true
+      })
+      const savedUser = await newUser.save()
+      const token = jwt.sign(
+        {
+  
+          id: savedUser._id
+        },
+        process.env.AUTH_KEY
+      );
+      res
+        .cookie("acces_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          succed: "true",
+        data:savedUser._doc
+        });
+    }
+    
+  } catch (error) {
+    
+    console.log(error)
+  }
+
 }

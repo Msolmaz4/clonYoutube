@@ -92,10 +92,24 @@ const SignIn = () => {
 
  }
 
-const signGoogle = ()=>{
+const signGoogle = async ()=>{
+   
+  dispacth(loginStart())
+
   signInWithPopup(auth , provider)
-  .then((result)=>{console.log(result)})
-  .catch((err)=>{console.log(err)})
+  //.then((result)=>{console.log(result)}) kontrol amacli 
+  .then((result)=>{
+    axios.post("/auth/google",{
+      name:result.user.displayName,
+      email:result.user.email,
+      img:result.user.photoURL
+    } ).then((res)=>{
+      dispacth(loginSuccess(res.data))
+    })
+  })
+  .catch((err)=>{
+    dispacth(loginFailure())
+  })
 }
 
 

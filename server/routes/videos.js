@@ -1,4 +1,4 @@
-const { addVideo, trend, random, sub, addView, getByTag, search } = require('../controller/video')
+const { addVideo, trend, random, sub, addView, getByTag, search, getVideo } = require('../controller/video')
 const { verifyToken } = require('../verifyToken')
 
 const router = require('express').Router()
@@ -6,7 +6,7 @@ const router = require('express').Router()
 router.post('/',verifyToken,addVideo)
 router.put('/:id',verifyToken,addVideo)
 router.delete('/:id',verifyToken,addVideo)
-router.get('/find/:id',addVideo)
+router.get('/find/:id',getVideo)
 router.put('/view/:id',addView)
 //video yu izledimi artirmak icin 
 router.get('/trend',trend)

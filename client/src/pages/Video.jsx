@@ -9,6 +9,8 @@ import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { fetchSuccess } from "../redux/videoSlice";
+import { format } from "timeago.js";
 
 const Container = styled.div`
   display: flex;
@@ -110,6 +112,7 @@ const Subscribe = styled.button`
 const Video = () => {
 
 const {currentUser} = useSelector((state)=>state.user)
+const {currentVideo} = useSelector((state)=>state.video)
 
 const dispatch = useDispatch()
 
@@ -125,20 +128,23 @@ const [video,setVideo]= useState({})
 const [channel,setChannnel] = useState({})
 
 
-
 useEffect(()=>{
   const fetchData = async ()=>{
-    try {
-      const videoRes = await axios.get(`/videos/find/${path}`)
-      const channelRes = await axios.get(`/users/find/${videoRes.userId}`)
-      setVideo(videoRes.data)
-      setChannnel(channelRes.data)
-    } catch (error) {
-      
-    }
+    const videoRes = await axios.get(`/videos/find/${path}`)
+   // console.log(videoRes.data)
+    const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+   // console.log(channelRes.data)
+   dispatch(fetchSuccess(videoRes.data))
+   setChannnel(channelRes.data)
+
+    
+    
   }
- 
-},[path])
+  fetchData()
+},[path,dispatch])
+
+
+
 
 
 
@@ -158,12 +164,12 @@ useEffect(()=>{
             allowfullscreen
           ></iframe>
         </VideoWrapper>
-        <Title>Test Video</Title>
+        <Title>{currentVideo.title}</Title>
         <Details>
-          <Info>7,948,154 views • Jun 22, 2022</Info>
+          <Info>{currentVideo.views} views . {format(currentVideo.createdAt)}</Info>
           <Buttons>
             <Button>
-              <ThumbUpOutlinedIcon /> 123
+              <ThumbUpOutlinedIcon /> {currentVideo.likes?.length}
             </Button>
             <Button>
               <ThumbDownOffAltOutlinedIcon /> Dislike
@@ -179,15 +185,12 @@ useEffect(()=>{
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
+            <Image src={channel.img} />
             <ChannelDetail>
-              <ChannelName>Lama Dev</ChannelName>
-              <ChannelCounter>200K subscribers</ChannelCounter>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers}</ChannelCounter>
               <Description>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Doloribus laborum delectus unde quaerat dolore culpa sit aliquam
-                at. Vitae facere ipsum totam ratione exercitationem. Suscipit
-                animi accusantium dolores ipsam ut.
+               {currentVideo.desc}
               </Description>
             </ChannelDetail>
           </ChannelInfo>

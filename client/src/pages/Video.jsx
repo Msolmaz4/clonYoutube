@@ -11,7 +11,8 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { fetchSuccess } from "../redux/videoSlice";
 import { format } from "timeago.js";
-
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -124,14 +125,13 @@ const dispatch = useDispatch()
 const path = useLocation().pathname.split("/")[2]
 console.log(path)
 
-const [video,setVideo]= useState({})
 const [channel,setChannnel] = useState({})
 
 
 useEffect(()=>{
   const fetchData = async ()=>{
     const videoRes = await axios.get(`/videos/find/${path}`)
-   // console.log(videoRes.data)
+    console.log(videoRes.data,"hata")
     const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
    // console.log(channelRes.data)
    dispatch(fetchSuccess(videoRes.data))
@@ -144,7 +144,16 @@ useEffect(()=>{
 },[path,dispatch])
 
 
+const handleLike =async()=>{
+  await axios.put(`/users/like/${currentVideo._id}`)
 
+}
+
+
+const handleDislike = async ()=>{
+  await axios.put(`/users/dislike/${currentVideo._id}`)
+
+}
 
 
 
@@ -164,15 +173,16 @@ useEffect(()=>{
             allowfullscreen
           ></iframe>
         </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
+       <Title>{currentVideo.title}</Title>
         <Details>
           <Info>{currentVideo.views} views . {format(currentVideo.createdAt)}</Info>
           <Buttons>
-            <Button>
-              <ThumbUpOutlinedIcon /> {currentVideo.likes?.length}
+            <Button onClick={handleLike}>
+            { currentVideo.likes?.includes(currentUser._id) ?(  <ThumbUpIcon />) :(<ThumbUpOutlinedIcon />)
+             } {currentVideo.likes?.length}
             </Button>
-            <Button>
-              <ThumbDownOffAltOutlinedIcon /> Dislike
+            <Button onClick={handleDislike}>
+             { currentVideo.dislikes?.includes(currentUser._id) ? (<ThumbDownIcon />)  : (<ThumbDownOffAltOutlinedIcon />)} Dislike
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -197,7 +207,7 @@ useEffect(()=>{
           <Subscribe>SUBSCRIBE</Subscribe>
         </Channel>
         <Hr />
-        <Comments/>
+  <Comments/>
       </Content>
      {/* <Recommendation>
         <Card type="sm"/>

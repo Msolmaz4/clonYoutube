@@ -9,7 +9,7 @@ import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { fetchSuccess } from "../redux/videoSlice";
+import { fetchSuccess ,like,dislike} from "../redux/videoSlice";
 import { format } from "timeago.js";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -146,13 +146,14 @@ useEffect(()=>{
 
 const handleLike =async()=>{
   await axios.put(`/users/like/${currentVideo._id}`)
+  dispatch(like(currentUser._id))
 
 }
 
 
 const handleDislike = async ()=>{
   await axios.put(`/users/dislike/${currentVideo._id}`)
-
+  dispatch(dislike(currentUser._id))
 }
 
 

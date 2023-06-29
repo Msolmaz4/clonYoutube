@@ -13,6 +13,7 @@ import { fetchSuccess ,like,dislike} from "../redux/videoSlice";
 import { format } from "timeago.js";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { subscription } from "../redux/userSlice";
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -157,6 +158,13 @@ const handleDislike = async ()=>{
 }
 
 
+const handleSub = async ()=>{
+  currentUser.subscribedUsers.includes(channel._id)?
+  await axios.put(`/users/unsub/${channel._id}`)
+  :axios.put(`/users/sub/${channel._id}`)
+  dispatch(subscription(channel._id))
+}
+
 
 
 
@@ -205,7 +213,8 @@ const handleDislike = async ()=>{
               </Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>SUBSCRIBE</Subscribe>
+          {/** burada yorum yazmadan once redxta kontrol yapariz abon eolup olmadigini */}
+          <Subscribe onClick={handleSub}> {currentUser.subscribedUsers?.includes(channel._id) ? "SUBSCRIBE" : "SUBSCRIBED"}  </Subscribe>
         </Channel>
         <Hr />
   <Comments/>

@@ -14,11 +14,18 @@ import { format } from "timeago.js";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { subscription } from "../redux/userSlice";
+
+
 const Container = styled.div`
   display: flex;
   gap: 24px;
 `;
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
 const Content = styled.div`
   flex: 5;
 `;
@@ -134,7 +141,7 @@ useEffect(()=>{
     const videoRes = await axios.get(`/videos/find/${path}`)
     console.log(videoRes.data,"hata")
     const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
-   // console.log(channelRes.data)
+   console.log(channelRes)
    dispatch(fetchSuccess(videoRes.data))
    setChannnel(channelRes.data)
 
@@ -172,15 +179,7 @@ const handleSub = async ()=>{
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+         <VideoFrame src={currentVideo.videoUrl}/>
         </VideoWrapper>
        <Title>{currentVideo.title}</Title>
         <Details>
@@ -217,7 +216,7 @@ const handleSub = async ()=>{
           <Subscribe onClick={handleSub}> {currentUser.subscribedUsers?.includes(channel._id) ? "SUBSCRIBE" : "SUBSCRIBED"}  </Subscribe>
         </Channel>
         <Hr />
-  <Comments/>
+  <Comments videoId={currentVideo._id}/>
       </Content>
      {/* <Recommendation>
         <Card type="sm"/>

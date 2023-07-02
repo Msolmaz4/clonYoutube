@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux"
+import  Upload  from "./Upload";
 
 
 
@@ -80,6 +81,11 @@ const Avatar = styled.img`
 
 
 const Navbar = () => {
+
+
+const [open ,setOpen] = useState(false)
+
+
 //Reducer içerisinde tanımlanan state bilgisine erişmek ve değişikliklerden haberdar olmak için kullanılır.
  const {currentUser} = useSelector(state=>state.user)
 //bburada alltta currentUser.Name yaptim hata aldim sonra consolda ne gelutyor baktimdata nin icinde gelutor nnmame
@@ -87,6 +93,8 @@ const Navbar = () => {
 
 
   return (
+    <>
+   
     <Container>
       <Wrapper>
         <Search>
@@ -95,7 +103,7 @@ const Navbar = () => {
         </Search>
        { currentUser ?  ( 
          <User>
-          <VideoCallOutlinedIcon/>
+          <VideoCallOutlinedIcon onClick ={()=>setOpen(true)} />
           <Avatar src={currentUser.data.img}/>
           {currentUser.data.name}
          </User>
@@ -109,6 +117,8 @@ const Navbar = () => {
         </Link>}
       </Wrapper>
     </Container>
+    {open && <Upload setOpen={setOpen}/>}
+    </>
   );
 };
 

@@ -9,10 +9,9 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 //type yazarak sondki uyantity rahatca degistebioliry 
-
 const Home = ({type}) => {
 
- const [videos ,setVideos]= useState([])
+const [videos ,setVideos]= useState([])
 
  useEffect(()=>{
 
@@ -26,8 +25,6 @@ const Home = ({type}) => {
 
   return (
     <Container>
-
-
       {
         videos.map((video)=>(
           <Card
@@ -35,8 +32,6 @@ const Home = ({type}) => {
            video={video} />
         ))
       }
-     
-      
     </Container>
   );
 };

@@ -14,6 +14,7 @@ import { format } from "timeago.js";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { subscription } from "../redux/userSlice";
+import Recommendation from "../components/Recommendation";
 
 
 const Container = styled.div`
@@ -67,9 +68,7 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
+
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -179,7 +178,7 @@ const handleSub = async ()=>{
     <Container>
       <Content>
         <VideoWrapper>
-         <VideoFrame src={currentVideo.videoUrl}/>
+         <VideoFrame src={currentVideo.videoUrl} controls/>
         </VideoWrapper>
        <Title>{currentVideo.title}</Title>
         <Details>
@@ -218,21 +217,7 @@ const handleSub = async ()=>{
         <Hr />
   <Comments videoId={currentVideo._id}/>
       </Content>
-     {/* <Recommendation>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-  </Recommendation>*/}
+     <Recommendation tags={currentVideo.tags}/>
     </Container>
   );
 };
